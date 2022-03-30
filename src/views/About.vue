@@ -9,9 +9,6 @@
         <el-form-item label="NumOfTokens">
           <el-input v-model="form.quantity" type="number"></el-input>
         </el-form-item>
-        <el-form-item label="Signature">
-          <el-input :disabled="true" v-model="form.signature"></el-input>
-        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="mint" :loading="loading" style="width: 100%">
             Mint
@@ -32,7 +29,7 @@ export default {
       address: null,
       result: null,
       form: {
-        amount: 0.004,
+        amount: 4000000000000000,
         quantity: 1,
         signature: ''
       }
@@ -62,6 +59,7 @@ export default {
       const trx = {
         from: this.address,
         to: this.$eth.contract._address,
+        value: this.$eth.web3.utils.toHex(this.form.amount * this.form.quantity),
         data: this.$eth.contract.methods.mintNFT(
             this.form.quantity, this.form.signature
         ).encodeABI(),
